@@ -28,6 +28,26 @@ CREATE TABLE `temps` (
   `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `color_sensor`;
+
+CREATE TABLE `color_sensor` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`val` int NOT NULL,
+	`color` varchar(15) NOT NULL,
+ 	`fecha` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `color_sensor` WRITE;
+INSERT INTO `color_sensor` VALUES 
+(0, 120, 'rojo','2024-08-28 17:00:13'),
+(1,95, 'verde', '2024-08-28 17:00:13'),
+(2, 110, 'azul', '2024-08-28 17:00:13'),
+(3,75, 'amarillo', '2024-08-28 17:00:13');
+UNLOCK TABLES;
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
