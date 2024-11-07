@@ -37,7 +37,7 @@ const getDistanceSensorByDate = '/getDistance'
 const postDistanceSensor = '/insertDistance';
 
 
-//Queries Base de Datos
+//Queries de Base de Datos
 
 //Sensor de temperatura
 const selectTemperature = 'SELECT * FROM temps';
@@ -49,9 +49,14 @@ const selectColorSensor = 'SELECT * FROM color_sensor';
 const selectColorSensorByDate = 'SELECT * FROM color_sensor WHERE fecha between ? and ?';
 const insertColorSensor = 'INSERT INTO color_sensor (val, color) values (?, ?)';
 
+// Sensor de distancia
+const selectDistance = 'SELECT * FROM distancia_sensor';
+const selectDistanceByDate = 'SELECT * FROM distancia_sensor WHERE fecha between ? and ?';
+const insertDistance = 'INSERT INTO distancia_sensor (valor) values (?)';
 
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,getTemperatureSensor,
    getTemperatureSensorByDate,postTemperatureSensor,selectTemperature,selectTemperatureByDate,insertTemperature,
-   getColorSensor, getColorSensorByDate, postColorSensor, selectColorSensor,selectColorSensorByDate,insertColorSensor
+   getColorSensor, getColorSensorByDate, postColorSensor, selectColorSensor,selectColorSensorByDate,insertColorSensor,
+   selectDistance, selectDistanceByDate, insertDistance
 }
