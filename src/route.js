@@ -10,7 +10,8 @@
 const constants = require("./constants")
 const express = require('express');
 const temperaturaController = require('./RestControllers/sensorTemperatura.js'); 
-const colorController = require('./RestControllers/sensorColor.js'); 
+const colorController = require('./RestControllers/sensorColor.js');
+const distanceController = require('./RestControllers/sensorDistancia.js');  
 const router = express.Router();
 
 router.get("/",function(req,res){
@@ -27,12 +28,19 @@ router.get("/",function(req,res){
  * Para otros sensores, puedes agregar otros archivos y configurar sus url's.
  * 
  */
+// Rutas get y post con cada sensor
+//Sensor de temperatura
 router.get(constants.contextURL + constants.api + constants.getTemperatureSensor, temperaturaController.getLogTemperatura);
 router.post(constants.contextURL + constants.api + constants.getTemperatureSensorByDate, temperaturaController.getLogByDateBetween);
 router.post(constants.contextURL + constants.api + constants.postTemperatureSensor,temperaturaController.insertLogTemperatura);
+//Sensor de color
 router.get(constants.contextURL + constants.api + constants.getColorSensor, colorController.getLogColor);
 router.post(constants.contextURL + constants.api + constants.getColorSensorByDate, colorController.getLogByDateBetween_color);
 router.post(constants.contextURL + constants.api + constants.postColorSensor,colorController.insertLogColor);
+//Sensor de distancia
+router.get(constants.contextURL + constants.api + constants.getDistanceSensor, distanceController.getLogDistancia);
+router.post(constants.contextURL + constants.api + constants.getDistanceSensorByDate, distanceController.getDistByDateBetween);
+router.post(constants.contextURL + constants.api + constants.postDistanceSensor,distanceController.insertLogDistance);
 
 
 //le decimos a Node que queremos hacer uso de nuestro router en otros archivos (como por ejemplo, app.js)
