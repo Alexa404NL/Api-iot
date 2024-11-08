@@ -2,37 +2,35 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 #include <DHT.h> // https://github.com/adafruit/DHT-sensor-library
-/*#define Trig 13 // "Trig" // Sensor de distancia Ultrasónico HC-SR04.
-#define Echo 15 // "Echo"*/
-#define ht11 4 // "DHTPIN" // Sensor DHT11-sensor de humedad y temperatura.
-#define DHTTYPE DHT11
-#define Lamp1 2 // "L1" // LED, Lamparas a controlar.
-#define Lamp2 5 // "L2"
-DHT dht(ht11, DHTTYPE); // Inicializamos el sensor DHT11.
+
+// Sensor de distancia Ultrasónico HC-SR04.
+#define Trig 13 // "Trig" 
+#define Echo 15 // "Echo"
+
 #define WIFI_SSID "Tec-IoT"
 #define WIFI_PASSWORD "spotless.magnetic.bridge"
 //Red Key
+
 HTTPClient httpClient;
 WiFiClient wClient;
+
 String URL1 = "http://192.168.1.12:3000/api/getLogs/"; //use GET for SELECT QUERY
 String URL2 = "http://192.168.1.12:3000/api/logTemp/";
 String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
 String deviceID1 = "1/";
 //long tiempoAnterior = 0; // Hora del reporte anterior.
 //char msg_G[50]; // Variable para Cadena(string).
+
 int lecturaSensorA0 = 0; // Lectura sensor analogico
 int umbral_A0 = 500; // Criterio para enviar un mensaje al "broker", Sensor analogico
 int umbral_D = 40;
 float voltage = 0;
+
 void setup() {
-/*pinMode( Trig, OUTPUT); // Configuracion
+pinMode( Trig, OUTPUT); // Configuracion
 pinMode( Echo, INPUT);
-digitalWrite(Trig, LOW);*/ // Inicializar
-// Actuadores
-pinMode(Lamp1, OUTPUT); // Configuracion
-pinMode(Lamp2, OUTPUT);
-digitalWrite(Lamp1, LOW); // Inicializar
-digitalWrite(Lamp2, LOW);
+digitalWrite(Trig, LOW); // Inicializar
+
 // Indicadores
 Serial.begin(9600); // Puerto
 dht.begin();
