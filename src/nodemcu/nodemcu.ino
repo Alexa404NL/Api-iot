@@ -1,11 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
-#include <DHT.h> // https://github.com/adafruit/DHT-sensor-library
 
 // Sensor de distancia Ultrasónico HC-SR04.
-#define Trig D5 // "Trig" 
-#define Echo D6 // "Echo"
+#define TRIG_PIN D5 // "Trig" 
+#define ECHO_PIN D6 // "Echo"
 
 #define WIFI_SSID "Tec-IoT"
 #define WIFI_PASSWORD "spotless.magnetic.bridge"
@@ -26,9 +25,9 @@ int umbral_A0 = 500; // Criterio para enviar un mensaje al "broker", Sensor anal
 int umbral_D = 40;
 
 void setup() {
-pinMode( Trig, OUTPUT); // Configuracion
-pinMode( Echo, INPUT);
-digitalWrite(Trig, LOW); // Inicializar
+pinMode(TRIG_PIN, OUTPUT);
+pinMode(ECHO_PIN, INPUT);
+digitalWrite(TRIG_PIN, LOW); // Inicializar
 
 // Indicadores
 Serial.begin(9600); // Puerto
@@ -114,7 +113,7 @@ long distanciaUltrasonico(int Trig, int Echo) {
     delayMicroseconds(10);
     digitalWrite(Trig, LOW);
 
-    long duracion = pulseIn(echoPin, HIGH);
+    long duracion = pulseIn(Echo, HIGH);
     long distancia = duracion * 0.034 / 2;
     return distancia;
 }
