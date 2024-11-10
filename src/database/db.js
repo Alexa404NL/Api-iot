@@ -20,7 +20,7 @@ function getConnection(){
     user: constants.dbUser,
     port: constants.dbPort,
     password: constants.dbPass,
-    database: "iot",
+    database: "IoT",
     dateStrings: true, //https://stackoverflow.com/questions/49475282/mysql-date-different-while-retrieving-from-node-js - Ignore timezone and use dates as strings
   });
 
