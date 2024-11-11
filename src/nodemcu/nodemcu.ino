@@ -96,7 +96,9 @@ void setup() {
     noTone(buzzer);     // Stop sound...
     }
     logIntentoPOSinsert(deviceID1, distancia);
+    Serial.println("");
     logIntentoGETselect(deviceID1);
+    Serial.println("----------------------------------------------------------------------------------------------------------------");
 
     delay(5000);
   }
@@ -127,8 +129,7 @@ void logIntentoPOSinsert(String deviceID, float distancia){
     String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
     String payload = "{\"id\": \"" + id + "\", \"valor\": \"" + String(distancia) + "\", \"fecha\": \"" + fecha + "\"}";
 
-    Serial.println(data); // Verifica que la URL sea correcta
-    Serial.println("Payload: " + payload); // Imprime el JSON que se envía
+    Serial.println(data); 
 
     if(WiFi.status() == WL_CONNECTED){
         httpClient.begin(wClient, data.c_str());
@@ -138,14 +139,10 @@ void logIntentoPOSinsert(String deviceID, float distancia){
 
         if (httpResponseCode > 0) {
             String response = httpClient.getString();
-            Serial.println("Respuesta del servidor: " + response);
+            Serial.println(response);
         } else {
-            Serial.print("Error en la solicitud POST: ");
             Serial.println(httpResponseCode);
         }
-        
         httpClient.end();
-    } else {
-        Serial.println("Error: No está conectado a WiFi");
     }
 }
