@@ -113,11 +113,11 @@ async function getDistByDateBetween(req,res){
 async function insertLogDistance(req,res){
   try{
 
-    var sql = constants.insertDistance;
+    const sql = constants.insertDistance;
 
     //el valor se recibe en el cuerpo de correo
     //cualquier dato que vaya a ir en el insert deberás guardarlo en una variable local
-    var valor = req.body.valor;
+    const valor = req.body.valor;
 
     var conn = mysql.getConnection();
     conn.connect((error)=>{

@@ -57,6 +57,6 @@ const insertDistance = 'INSERT INTO distancia (valor) values (?)';
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,getTemperatureSensor,
    getTemperatureSensorByDate,postTemperatureSensor,selectTemperature,selectTemperatureByDate,insertTemperature,
-   getColorSensor, getColorSensorByDate, postColorSensor, selectColorSensor,selectColorSensorByDate,insertColorSensor,
-   selectDistance, selectDistanceByDate, insertDistance
+   getColorSensor, getColorSensorByDate, postColorSensor, selectColorSensor,selectColorSensorByDate,insertColorSensor, getDistanceSensor,
+   getDistanceSensorByDate,postDistanceSensor,selectDistance, selectDistanceByDate, insertDistance
 }

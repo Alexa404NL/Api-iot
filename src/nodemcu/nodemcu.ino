@@ -17,13 +17,13 @@
 #define SD3 10  // Arriba izquierda 4
 #define SD2  9  // Arriba izquierda 5
 
-#define WIFI_SSID "INFINITUM3172_5"
+#define WIFI_SSID "GO_RAVENS"
  #define WIFI_PASSWORD "5177632456"
 //Red Key
     HTTPClient httpClient;
     WiFiClient wClient;
-    String URL1 = "http://192.168.1.127:3000/api/getDistance/"; //use GET for SELECT QUERY
-    String URL2 = "http://192.168.1.127:3000/api/insertDistance/";
+    String URL1 = "http://192.168.1.127:3000/iot/api/getDistance/"; //use GET for SELECT QUERY
+    String URL2 = "http://192.168.1.127:3000/iot/api/insertDistance/";
     //String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
     String deviceID1 = "1/";
 //long tiempoAnterior = 0; // Hora del reporte anterior.
@@ -47,7 +47,7 @@ float medirDistanciaCm() {
 
     //listen for echo
     long duracion = pulseIn(echoPin, HIGH);
-    long distancia = duracion * 0.034 / 2;
+    long distanciaCM = duracion * 0.034 / 2;
     return distanciaCM;
 }
 
@@ -86,21 +86,27 @@ void setup() {
     // delay(1000); // Wait for 1000 millisecond(s)
 
     float distancia=medirDistanciaCm();
-    if (distancia<100){
+    Serial.print("Distancia: ");
+    Serial.print(distancia);
+    Serial.println("cm");
+
+    if (distancia<18){
     tone(buzzer, 1000); // Send 1KHz sound signal...
     delay(1000);        // ...for 1 sec
     noTone(buzzer);     // Stop sound...
     }
-    delay(500);
+    logIntentoPOSinsert(deviceID1, distancia);
+    logIntentoGETselect(deviceID1);
+
+    delay(5000);
   }
     // Metodo GET para consultar la base de datos
   
   void logIntentoGETselect(String deviceID){
     //if(WiFi.status() == WL_CONNECTED){
     String data = URL1;
-    data = data + deviceID;
 
-    //data = http://192.168.1.12:3000/api/getLogs/1/
+    //data = http://192.168.1.12:3000/IoT/api/getLogs/1/
     Serial.println(data);
     if(WiFi.status() == WL_CONNECTED){
     httpClient.begin(wClient, data.c_str());
@@ -115,26 +121,31 @@ void setup() {
   }
 
   // Metodo POST para insertar en la base de datos
-  void logIntentoPOSinsert(String deviceID, float tmp){
-    //if(WiFi.status() == WL_CONNECTED){
-    String data = "http://131.178.102.201:3000/IoT/api/insertColor";
-    data = data + deviceID;  
-    data = data + tmp;
-    //data = http://192.168.1.12:3000/api/logTemp/1/20
-    Serial.println(data);
-    /*URL4 = http://129.23.23.08/Pruebas_GP/?devID=
-    String data4 = URL4;
-    data4 = data4 + deviceID + "&temperature=" + tmp;
-    Serial.println(data4);*/
+void logIntentoPOSinsert(String deviceID, float distancia){
+    String data = URL2;
+    String id = "123";  // ID de ejemplo
+    String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
+    String payload = "{\"id\": \"" + id + "\", \"valor\": \"" + String(distancia) + "\", \"fecha\": \"" + fecha + "\"}";
+
+    Serial.println(data); // Verifica que la URL sea correcta
+    Serial.println("Payload: " + payload); // Imprime el JSON que se envía
+
     if(WiFi.status() == WL_CONNECTED){
-    httpClient.begin(wClient, data.c_str());
-    httpClient.addHeader("Content-Type", "Content-Type: application/json");
-    int httpResponseCode = httpClient.POST(data.c_str());
-    Serial.println(httpResponseCode);
-    //if (httpResponseCode>0) {
-    Serial.println(httpClient.getString());
-    //}
-    httpClient.end();
+        httpClient.begin(wClient, data.c_str());
+        httpClient.addHeader("Content-Type", "application/json");
+        int httpResponseCode = httpClient.POST(payload);  // Envía el payload como JSON
+        Serial.println(httpResponseCode);
+
+        if (httpResponseCode > 0) {
+            String response = httpClient.getString();
+            Serial.println("Respuesta del servidor: " + response);
+        } else {
+            Serial.print("Error en la solicitud POST: ");
+            Serial.println(httpResponseCode);
+        }
+        
+        httpClient.end();
+    } else {
+        Serial.println("Error: No está conectado a WiFi");
     }
-    return;
-  }
+}
