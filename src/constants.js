@@ -4,11 +4,6 @@
  * 
  *  Para acceder a una BD en la nube debes configurar un archivo .env
  */
-const dbHost = "mysql-210e8947-tec-5485.b.aivencloud.com";
-const dbPort = "18042";
-const dbUser = "avnadmin";
-const dbPass = "AVNS_Uxdxp-ONR2M8zkLD03O";
-const dbName = "IoT";
 
 
 
