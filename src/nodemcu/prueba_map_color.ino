@@ -17,7 +17,8 @@ const int S0 = D3;
 const int S1 = D2;  
 const int S2 = D4;  
 const int S3 = D0;  
-const int sensorOut = D5;    
+const int sensorOut = D5;
+const int mot_v=D1;     
 
 // test
 
@@ -49,7 +50,8 @@ void setup() {
   
   // Setting the sensorOut as an input
   pinMode(sensorOut, INPUT);
-  
+  pinMode(mot_v,OUTPUT);
+
   // Setting frequency scaling to 20%
   digitalWrite(S0,HIGH);
   digitalWrite(S1,LOW);
@@ -120,6 +122,10 @@ void loop() {
 
   if (redColor > blueColor && greenColor > blueColor && diffRG <= 30 && diffRB >= 20) {
       Serial.println(" - YELLOW detected!");
+      digitalWrite(mot_v, HIGH);
+      delay(300);
+      digitalWrite(mot_v, LOW);
+      delay(300);
   }
   else if(redColor > greenColor && redColor > blueColor){
       Serial.println(" - RED detected!");
@@ -129,9 +135,17 @@ void loop() {
   }
   else if(blueColor > redColor && blueColor > greenColor){
     Serial.println(" - BLUE detected!");
+    digitalWrite(mot_v, HIGH);
+    delay(300);
+    digitalWrite(mot_v, LOW);
+    delay(300);
   }
   else if (blueColor >= 240 && redColor >= 240 && greenColor >= 240) {
     Serial.println(" - WHITE detected");
+    digitalWrite(mot_v, HIGH);
+    delay(300);
+    digitalWrite(mot_v, LOW);
+    delay(300);
   }
 
   if (blueColor <= 3 && redColor <= 3 && greenColor <= 3) {
