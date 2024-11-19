@@ -31,13 +31,15 @@ CREATE TABLE `temps` (
 
 DROP TABLE IF EXISTS `color_sensor`;
 
-CREATE TABLE `color_sensor` (
-	`id` int NOT NULL AUTO_INCREMENT,
-	`val` int NOT NULL,
-	`color` varchar(15) NOT NULL,
- 	`fecha` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE color (
+	id int NOT NULL AUTO_INCREMENT,
+	r int NOT NULL,
+	g int NOT NULL,
+	b int NOT NULL,
+	color varchar(15),
+ 	fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  	PRIMARY KEY (id)
+);
 
 LOCK TABLES `color_sensor` WRITE;
 INSERT INTO `color_sensor` VALUES 
