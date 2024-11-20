@@ -4,9 +4,11 @@
  * 
  *  Para acceder a una BD en la nube debes configurar un archivo .env
  */
-
-
-
+const dbHost = "mysql-210e8947-tec-5485.b.aivencloud.com";
+const dbPort = "18042";
+const dbUser = "avnadmin";
+const dbPass = "AVNS_Uxdxp-ONR2M8zkLD03O";
+const dbName = "IoT";
 /*
  * Server General Configuration
  */
@@ -40,9 +42,9 @@ const selectTemperatureByDate = 'SELECT * FROM temps WHERE fecha between ? and ?
 const insertTemperature = 'INSERT INTO temps (valor) values (?)';
 
 //Sensor de color
-const selectColorSensor = 'SELECT * FROM color_sensor';
-const selectColorSensorByDate = 'SELECT * FROM color_sensor WHERE fecha between ? and ?';
-const insertColorSensor = 'INSERT INTO color_sensor (val, color) values (?, ?)';
+const selectColorSensor = 'SELECT * FROM color';
+const selectColorSensorByDate = 'SELECT * FROM color WHERE fecha between ? and ?';
+const insertColorSensor = 'INSERT INTO color (id, R, G, B, Color, fecha) VALUES (?, ?, ?, ?, ?, ?)';
 
 // Sensor de distancia
 const selectDistance = 'SELECT * FROM distancia';

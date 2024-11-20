@@ -18,7 +18,7 @@
 #define SD2  9  // Arriba izquierda 5
 
 #define WIFI_SSID "GO_RAVENS"
- #define WIFI_PASSWORD "5177632456"
+#define WIFI_PASSWORD "5177632456"
 //Red Key
     HTTPClient httpClient;
     WiFiClient wClient;

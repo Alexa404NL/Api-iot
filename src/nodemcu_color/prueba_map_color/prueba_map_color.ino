@@ -1,3 +1,7 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266HTTPClient.h>
+
 // TCS230 or TCS3200 pins wiring to Arduino
 
 #define D0 16   // Arriba derecha 1
@@ -13,6 +17,17 @@
 #define SD3 10  // Arriba izquierda 4
 #define SD2  9  // Arriba izquierda 5
 
+#define WIFI_SSID "Tec-IoT"
+#define WIFI_PASSWORD "spotless.magnetic.bridge"
+//Red Key
+//Red Key
+HTTPClient httpClient;
+WiFiClient wClient;
+String URL1 = "http://10.22.209.126:3000/iot/api/getColors/";
+String URL2 = "http://10.22.209.126:3000/iot/api/insertColor/";
+//String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
+String deviceID1 = "1/";
+
 const int S0 = D3;  
 const int S1 = D2;  
 const int S2 = D4;  
@@ -21,7 +36,6 @@ const int sensorOut = D5;
 const int mot_v=D1;     
 
 // test
-
 
 // 130 close, red, further 100
 
@@ -42,6 +56,7 @@ int greenColor = 0;
 int blueColor = 0;
 
 void setup() {
+  Serial.begin(9600);
   // Setting the outputs
   pinMode(S0, OUTPUT);
   pinMode(S1, OUTPUT);
@@ -55,9 +70,22 @@ void setup() {
   // Setting frequency scaling to 20%
   digitalWrite(S0,HIGH);
   digitalWrite(S1,LOW);
-  
-  // Begins serial communication
-  Serial.begin(9600);
+
+  // Hacer la conexión a la red WiFi
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Conectando a red WiFi \"");
+  Serial.print(WIFI_SSID);
+  Serial.print("\"");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.print("\nConectado! IP: ");
+  Serial.println(WiFi.localIP());
+  delay(500);
 }
 
 void loop() {
@@ -78,6 +106,7 @@ void loop() {
   Serial.print(redColor);
   delay(100);
   
+
   // Setting GREEN (G) filtered photodiodes to be read
   digitalWrite(S2,HIGH);
   digitalWrite(S3,HIGH);
@@ -101,6 +130,7 @@ void loop() {
   digitalWrite(S2,LOW);
   digitalWrite(S3,HIGH);
   
+
   // Reading the output frequency
   blueFrequency = pulseIn(sensorOut, LOW);
   // Remaping the value of the BLUE (B) frequency from 0 to 255
@@ -114,26 +144,28 @@ void loop() {
   Serial.print(blueColor);
   delay(100);
 
-  // Checks the current detected color and prints
-  // a message in the serial monitor
-
   int diffRG = redColor - greenColor; 
   int diffRB = redColor - blueColor; 
-
+  String color_detectado; 
   if (redColor > blueColor && greenColor > blueColor && diffRG <= 30 && diffRB >= 20) {
+    color_detectado = "AMARILLO";
       Serial.println(" - YELLOW detected!");
       digitalWrite(mot_v, HIGH);
       delay(300);
       digitalWrite(mot_v, LOW);
       delay(300);
+      
   }
   else if(redColor > greenColor && redColor > blueColor){
       Serial.println(" - RED detected!");
+      color_detectado = "ROJO";
   }
   else if(greenColor > redColor && greenColor > blueColor){
     Serial.println(" - GREEN detected!");
+    color_detectado = "VERDE";
   }
   else if(blueColor > redColor && blueColor > greenColor){
+    color_detectado = "AZUL";
     Serial.println(" - BLUE detected!");
     digitalWrite(mot_v, HIGH);
     delay(300);
@@ -141,6 +173,7 @@ void loop() {
     delay(300);
   }
   else if (blueColor >= 240 && redColor >= 240 && greenColor >= 240) {
+    color_detectado = "BLANCO";
     Serial.println(" - WHITE detected");
     digitalWrite(mot_v, HIGH);
     delay(300);
@@ -149,6 +182,55 @@ void loop() {
   }
 
   if (blueColor <= 3 && redColor <= 3 && greenColor <= 3) {
+    color_detectado = "NEGRO";
     Serial.println(" - BLACK detected");
   }
+
+  //logIntentoPOSinsert(deviceID1, redColor, greenColor, blueColor, color_detectado);
+  Serial.println("");
+  logIntentoGETselect(deviceID1);
+  Serial.println("----------------------------------------------------------------------------------------------------------------");
+
+  delay(3000);
+  
+}
+
+// Metodo GET para obtener datos de la base de datos
+void logIntentoGETselect(String deviceID){
+    String data = URL1;
+    Serial.println(data);
+    if(WiFi.status() == WL_CONNECTED){
+    httpClient.begin(wClient, data.c_str());
+    int httpResponseCode = httpClient.GET();
+    Serial.println(httpResponseCode);
+    if (httpResponseCode>0) {
+    Serial.println(httpClient.getString());
+    }
+    httpClient.end();
+    }
+    return;
+  }
+
+  // Metodo POST para insertar en la base de datos
+void logIntentoPOSinsert(String deviceID, int R, int G, int B, String color){
+    String data = URL2;
+    String id = "123";  // ID de ejemplo
+    String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
+    String payload = "{\"id\": " + id + ", \"r\": " + String(R) + ", \"g\": " + String(G) + ", \"b\": " + String(B) + ", \"color\": \"" + color + "\", \"fecha\": \"" + fecha + "\"}";
+
+    Serial.println(data); 
+    if(WiFi.status() == WL_CONNECTED){
+        httpClient.begin(wClient, data.c_str());
+        httpClient.addHeader("Content-Type", "application/json");
+        int httpResponseCode = httpClient.POST(payload);  // Envía el payload como JSON
+        Serial.println(httpResponseCode);
+
+        if (httpResponseCode > 0) {
+            String response = httpClient.getString();
+            Serial.println(response);
+        } else {
+            Serial.println(httpResponseCode);
+        }
+        httpClient.end();
+    }
 }
