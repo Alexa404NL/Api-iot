@@ -19,60 +19,39 @@
 -- Table structure for table `temps`
 --
 
-DROP TABLE IF EXISTS `temps`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `temps` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `valor` decimal(18,2) DEFAULT NULL,
-  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DROP TABLE IF EXISTS `color_sensor`;
-
-CREATE TABLE color (
-	id int NOT NULL AUTO_INCREMENT,
-	r int NOT NULL,
-	g int NOT NULL,
-	b int NOT NULL,
-	color varchar(15),
- 	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-  	PRIMARY KEY (id)
+CREATE TABLE sensores (
+    id_sens INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_sensor VARCHAR(20) NOT NULL
 );
 
-LOCK TABLES `color_sensor` WRITE;
-INSERT INTO `color_sensor` VALUES 
-(0, 120, 'rojo','2024-08-28 17:00:13'),
-(1,95, 'verde', '2024-08-28 17:00:13'),
-(2, 110, 'azul', '2024-08-28 17:00:13'),
-(3,75, 'amarillo', '2024-08-28 17:00:13');
-UNLOCK TABLES;
+
+CREATE TABLE color (
+    id int AUTO_INCREMENT PRIMARY KEY,
+    sensor_id INT NOT NULL,
+    r INT NOT NULL,
+    g INT NOT NULL,
+    b INT NOT NULL,
+    color_formado VARCHAR(50) NOT NULL,
+    tiempo TIMESTAMP,
+    FOREIGN KEY (sensor_id) REFERENCES sensores(id_sens)
+);
 
 
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE distancia (
+    id int AUTO_INCREMENT PRIMARY KEY,
+    sensor_id INT NOT NULL,
+    distancia FLOAT NOT NULL,
+    tiempo TIMESTAMP,
+    FOREIGN KEY (sensor_id) REFERENCES sensores(id_sens)
+);
 
---
--- Dumping data for table `temps`
---
 
-LOCK TABLES `temps` WRITE;
-/*!40000 ALTER TABLE `temps` DISABLE KEYS */;
-INSERT INTO `temps` VALUES (1,35.00,'2024-08-28 17:00:13'),(2,34.50,'2024-08-28 17:05:13'),(3,35.50,'2024-08-28 17:10:13'),(4,33.00,'2024-08-28 17:15:13'),(5,35.00,'2024-08-28 17:20:13'),(6,34.00,'2024-08-28 17:25:13'),(7,32.00,'2024-08-28 17:30:13'),(8,33.00,'2024-08-28 17:35:13'),(9,33.90,'2024-08-28 17:40:13'),(10,34.50,'2024-08-28 17:45:13'),(11,38.00,'2024-08-29 18:09:08'),(12,39.50,'2024-08-29 18:09:25');
-/*!40000 ALTER TABLE `temps` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'iot'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-08-29 18:19:22
+CREATE TABLE promedios (
+    id int AUTO_INCREMENT PRIMARY KEY,
+    sensor_id INT NOT NULL,
+    tipo_promedio VARCHAR(20) NOT NULL CHECK (tipo_promedio IN ('color', 'distancia')),
+    promedio_valor FLOAT NOT NULL,
+    timestamp_inicio TIMESTAMP NOT NULL,
+    timestamp_fin TIMESTAMP NOT NULL,
+    FOREIGN KEY (sensor_id) REFERENCES sensores(id_sens)
+);
