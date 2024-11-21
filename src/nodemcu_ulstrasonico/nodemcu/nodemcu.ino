@@ -102,8 +102,8 @@ void setup() {
 
     delay(5000);
   }
-    // Metodo GET para consultar la base de datos
-  
+
+  // Metodo GET para consultar la base de datos
   void logIntentoGETselect(String deviceID){
     //if(WiFi.status() == WL_CONNECTED){
     String data = URL1;
@@ -125,8 +125,8 @@ void setup() {
   // Metodo POST para insertar en la base de datos
 void logIntentoPOSinsert(String deviceID, float distancia){
     String data = URL2;
-    String id = "123";  // ID de ejemplo
-    String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
+    // String id = "123";  // ID de ejemplo
+    // String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
     String payload = "{\"valor\": \"" + String(distancia) + "\"}";
 
     Serial.println(data); 

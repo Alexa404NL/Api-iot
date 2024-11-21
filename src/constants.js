@@ -44,7 +44,7 @@ const insertTemperature = 'INSERT INTO temps (valor) values (?)';
 //Sensor de color
 const selectColorSensor = 'SELECT * FROM color';
 const selectColorSensorByDate = 'SELECT * FROM color WHERE fecha between ? and ?';
-const insertColorSensor = 'INSERT INTO color (r, g, b, color) VALUES (?, ?, ?, ?)';
+const insertColorSensor = 'INSERT INTO color (sensor_id, r, g, b, color) VALUES (1, ?, ?, ?, ?)';
 
 // Sensor de distancia
 const selectDistance = 'SELECT * FROM distancia';

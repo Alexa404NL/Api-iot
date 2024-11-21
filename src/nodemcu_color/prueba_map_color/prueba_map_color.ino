@@ -28,8 +28,8 @@
 //Red Key
 HTTPClient httpClient;
 WiFiClient wClient;
-String URL1 = "http://192.168.1.121:3000/iot/api/getColors/";
-String URL2 = "http://192.168.1.121:3000/iot/api/insertColor/";
+String URL1 = "http://192.168.1.127:3000/iot/api/getColors/";
+String URL2 = "http://192.168.1.127:3000/iot/api/insertColor/";
 //String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
 String deviceID1 = "1/";
 
@@ -191,7 +191,7 @@ void loop() {
     Serial.println(" - BLACK detected");
   }
 
-  logIntentoPOSinsert(deviceID1, color_detectado);
+  logIntentoPOSinsert(deviceID1, redColor, greenColor, blueColor, color_detectado);
   Serial.println("");
   logIntentoGETselect(deviceID1);
   Serial.println("----------------------------------------------------------------------------------------------------------------");
@@ -217,14 +217,9 @@ void logIntentoGETselect(String deviceID){
   }
 
   // Metodo POST para insertar en la base de datos
-void logIntentoPOSinsert(String deviceID, String color){
+void logIntentoPOSinsert(String deviceID, int r, int g, int b, String color){
     String data = URL2;
-    // String id = "123";  // ID de ejemplo
-    // String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
-    String rej = "255";
-    String bej = "130";
-    String gej = "100";
-    String payload = "{"r": " + rej + ", "g": " + gej + ", "b": " + bej + ", "color": "" + color + ""}";
+    String payload = "{\"r\": \"" + String(r) + "\", \"g\": \"" + String(g) + "\", \"b\": \"" + String(b) + "\", \"color\": \"" + color + "\"}";
     Serial.println(data); 
     if(WiFi.status() == WL_CONNECTED){
         httpClient.begin(wClient, data.c_str());
