@@ -214,12 +214,10 @@ void logIntentoGETselect(String deviceID){
   // Metodo POST para insertar en la base de datos
 void logIntentoPOSinsert(String deviceID, int R, int G, int B, String color){
     String data = URL2;
-    String id = "123";  // ID de ejemplo
-    String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
-    String rej = "255";
-    String bej = "130";
-    String gej = "100";
-    String payload = "{\"id\": " + id + ", \"r\": " + rej + ", \"g\": " + gej + ", \"b\": " + bej + ", \"color\": \"" + color + "\", \"fecha\": \"" + fecha + "\"}";
+    String rej = String(R);
+    String bej = String(G);
+    String gej = String(B);
+    String payload = "{\"r\": " + rej + ", \"g\": " + gej + ", \"b\": " + bej + ", \"color\": \"" + color + "\"}";
 
     Serial.println(data); 
     if(WiFi.status() == WL_CONNECTED){
