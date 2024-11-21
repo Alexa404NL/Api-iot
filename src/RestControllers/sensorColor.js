@@ -70,10 +70,7 @@ async function getLogColor(req,res){
   
       //el valor se recibe en el cuerpo de correo
       //cualquier dato que vaya a ir en el insert deberás guardarlo en una variable local
-      var r = req.body.r;
-      var g = req.body.g;
-      var b = req.body.b;
-      var color = req.body.color;
+      const valor = req.body.valor;
   
       var conn = mysql.getConnection();
       conn.connect((error)=>{
@@ -81,7 +78,7 @@ async function getLogColor(req,res){
   
           // así mismo, cualquier dato que vaya a insertarse, deberá incluirse en
           // los valores de los parámetros del Insert
-          var params = [r, g, b, color]; 
+          var params = [valor]; 
           conn.execute(sql, params, (error, data, fields) => {
               if (error) {
                 res.status(500);

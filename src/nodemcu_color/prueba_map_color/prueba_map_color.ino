@@ -17,14 +17,19 @@
 #define SD3 10  // Arriba izquierda 4
 #define SD2  9  // Arriba izquierda 5
 
-#define WIFI_SSID "Tec-IoT"
-#define WIFI_PASSWORD "spotless.magnetic.bridge"
+//RED DEL TEC
+// #define WIFI_SSID "Tec-IoT"
+// #define WIFI_PASSWORD "spotless.magnetic.bridge"
+
+//RED MI CASA
+#define WIFI_SSID "GO_RAVENS"
+#define WIFI_PASSWORD "5177632456"
 //Red Key
 //Red Key
 HTTPClient httpClient;
 WiFiClient wClient;
-String URL1 = "http://10.22.209.126:3000/iot/api/getColors/";
-String URL2 = "http://10.22.209.126:3000/iot/api/insertColor/";
+String URL1 = "http://192.168.1.121:3000/iot/api/getColors/";
+String URL2 = "http://192.168.1.121:3000/iot/api/insertColor/";
 //String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
 String deviceID1 = "1/";
 
@@ -186,7 +191,7 @@ void loop() {
     Serial.println(" - BLACK detected");
   }
 
-  //logIntentoPOSinsert(deviceID1, redColor, greenColor, blueColor, color_detectado);
+  logIntentoPOSinsert(deviceID1, color_detectado);
   Serial.println("");
   logIntentoGETselect(deviceID1);
   Serial.println("----------------------------------------------------------------------------------------------------------------");
@@ -212,12 +217,14 @@ void logIntentoGETselect(String deviceID){
   }
 
   // Metodo POST para insertar en la base de datos
-void logIntentoPOSinsert(String deviceID, int R, int G, int B, String color){
+void logIntentoPOSinsert(String deviceID, String color){
     String data = URL2;
-    String rej = String(R);
-    String bej = String(G);
-    String gej = String(B);
-    String payload = "{\"r\": " + rej + ", \"g\": " + gej + ", \"b\": " + bej + ", \"color\": \"" + color + "\"}";
+    String id = "123";  // ID de ejemplo
+    String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
+    String rej = "255";
+    String bej = "130";
+    String gej = "100";
+    String payload = "{\"id\": " + id + ", \"r\": " + rej + ", \"g\": " + gej + ", \"b\": " + bej + ", \"color\": \"" + color + "\", \"fecha\": \"" + fecha + "\"}";
 
     Serial.println(data); 
     if(WiFi.status() == WL_CONNECTED){
