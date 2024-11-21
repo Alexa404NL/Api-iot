@@ -127,7 +127,7 @@ void logIntentoPOSinsert(String deviceID, float distancia){
     String data = URL2;
     String id = "123";  // ID de ejemplo
     String fecha = "2024-04-15 17:20:13";  // Fecha de ejemplo
-    String payload = "{\"id\": \"" + id + "\", \"valor\": \"" + String(distancia) + "\", \"fecha\": \"" + fecha + "\"}";
+    String payload = "{\"valor\": \"" + String(distancia) + "\"}";
 
     Serial.println(data); 
 
