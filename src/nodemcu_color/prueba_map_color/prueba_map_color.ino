@@ -18,18 +18,20 @@
 #define SD2  9  // Arriba izquierda 5
 
 //RED DEL TEC
-// #define WIFI_SSID "Tec-IoT"
-// #define WIFI_PASSWORD "spotless.magnetic.bridge"
+#define WIFI_SSID "Tec-IoT"
+#define WIFI_PASSWORD "spotless.magnetic.bridge"
 
 //RED MI CASA
-#define WIFI_SSID "GO_RAVENS"
-#define WIFI_PASSWORD "5177632456"
+// #define WIFI_SSID "GO_RAVENS"
+// #define WIFI_PASSWORD "5177632456"
 //Red Key
 //Red Key
+//IP de mi casa: 192.168.1.127
+//IP del tec: 10.22.213.76
 HTTPClient httpClient;
 WiFiClient wClient;
-String URL1 = "http://192.168.1.127:3000/iot/api/getColors/";
-String URL2 = "http://192.168.1.127:3000/iot/api/insertColor/";
+String URL1 = "http://10.22.213.76:3000/iot/api/getColors/";
+String URL2 = "http://10.22.213.76:3000/iot/api/insertColor/";
 //String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
 String deviceID1 = "1/";
 

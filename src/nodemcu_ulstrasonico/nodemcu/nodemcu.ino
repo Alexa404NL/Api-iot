@@ -17,13 +17,20 @@
 #define SD3 10  // Arriba izquierda 4
 #define SD2  9  // Arriba izquierda 5
 
-#define WIFI_SSID "GO_RAVENS"
-#define WIFI_PASSWORD "5177632456"
+// #define WIFI_SSID "GO_RAVENS"
+// #define WIFI_PASSWORD "5177632456"
+
+#define WIFI_SSID "Tec-IoT"
+#define WIFI_PASSWORD "spotless.magnetic.bridge"
+
+//IP de mi casa: 192.168.1.127
+//IP del tec: 10.22.213.76
+
 //Red Key
     HTTPClient httpClient;
     WiFiClient wClient;
-    String URL1 = "http://192.168.1.127:3000/iot/api/getDistance/"; //use GET for SELECT QUERY
-    String URL2 = "http://192.168.1.127:3000/iot/api/insertDistance/";
+    String URL1 = "http://10.22.213.76:3000/iot/api/getDistance/"; //use GET for SELECT QUERY
+    String URL2 = "http://10.22.213.76:3000/iot/api/insertDistance/";
     //String URL4 = "http://129.23.23.08/Pruebas_GP/?devID=";
     String deviceID1 = "1/";
 //long tiempoAnterior = 0; // Hora del reporte anterior.

@@ -49,7 +49,7 @@ const insertColorSensor = 'INSERT INTO color (sensor_id, r, g, b, color) VALUES 
 // Sensor de distancia
 const selectDistance = 'SELECT * FROM distancia';
 const selectDistanceByDate = 'SELECT * FROM distancia WHERE fecha between ? and ?';
-const insertDistance = 'INSERT INTO distancia (valor) values (?)';
+const insertDistance = 'INSERT INTO distancia (sensor_id, valor) values (2,?)';
 
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,getTemperatureSensor,
